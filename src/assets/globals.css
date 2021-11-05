@@ -3,3 +3,7 @@
   background-color:#1F2932;
   color:#758ca0;
 }
+
+html, body {
+  min-width: 500px;
+}

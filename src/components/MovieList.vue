@@ -1,7 +1,7 @@
 <template>
 
-  <transition-group name="list" v-if="movies.length" tag="div" class="row movieContainer justify-content-center">
-    <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add/remove from favourite list">
+  <transition-group name="list" v-if="movies.length" tag="div" class="container d-flex flex-wrap align-content-between movieContainer justify-content-evenly align-items-center">
+    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 my-5" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add/remove from favourite list">
       <section @click="saveFavourite(movie)">
         <img src="../assets/ade5.jpg" />
         <span>{{ movie.Year }}</span>
@@ -18,15 +18,14 @@
 
 <script lang="ts">
 
-  import { computed, defineComponent, PropType, ref } from 'vue'
+  import {  defineComponent, computed, PropType, ref } from 'vue'
   import '@ocrv/vue-tailwind-pagination/dist/style.css'
   import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
   import Movie from '@/types/Movie'
   import OrderTerm from '@/types/OrderTerm'
-  // import MovieService from '../services/MovieService'
+
   export default defineComponent({
     name: 'MovieList',
-    components: {},
     props: {
       movies: {
         required: true,
@@ -97,9 +96,8 @@
 
   .movieContainer {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    width: 100%;
+    flex-direction: colum;
+    min-width: 500px;
     margin-bottom: 120px;
   }
 
@@ -192,6 +190,16 @@
     .topNav {
       display: flex;
     }
+  }
+
+  @media (max-width: 628px) {
+  .movieContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: content;
+    overflow: horizontal;
+    margin-bottom: 120px;
+  }
   }
 
 </style>
