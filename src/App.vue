@@ -92,7 +92,7 @@ export default defineComponent({
     const favourite = ref<boolean>(false)
     const page = ref<number>(1)
     const totalPages = ref<number>(10)
-    const perPage = ref<number>(10)
+    // const perPage = ref<number>(10)
 
     const handleClick = (term: OrderTerm) => {
       order.value = term
@@ -138,6 +138,7 @@ export default defineComponent({
     }
 
     const getpaginated = (event) => {
+      movies.value = []
       MovieService.getPaginated(event)
       .then(res => {
         movies.value = [...res.data.data];
@@ -258,33 +259,6 @@ header{
   color: white;
   max-width: 400px;
 }
-/*
-ul{
-  list-style:none;
-  text-decoration:none;
-  margin:0px;
-  padding:0px;
-}
-
-ul li{
-  padding-bottom:10px;
-  padding-left:0px;
-  padding-right:0px;
-  width:110%;
-}
-
-ul li a{
-  list-style: none;
-  padding:10px;
-  text-decoration: none;
-  max-width: 400px;
-  color: #718496;
-}
-
-ul li a:hover{
-  color: white;
-  max-width: 400px;
-} */
 
 .main {
   flex:0.95;
@@ -327,73 +301,6 @@ section ul li a div span, svg{
 .pagination div input{
   background-color: white;
 }
-/*
-section{
-  width: 200px;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  background-color:none;
-
-}
-
-section img {
-  margin-bottom: 15px;
-  background-color:none;
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-
-  box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
--webkit-box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
--moz-box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
-}
-
-section img:hover {
-  transform: scale(1.1, 1.1);
-  margin-bottom: 40px;
-  box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
--webkit-box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
-}
-
-section span {
-  background-color: rgb(233, 122, 18);
-  width: 50px;
-  padding:5px;
-  color:white;
-  border-radius: 25px;
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  top: -15px;
-  left: 70px;
-}
-
-section h3,p, img{
-  background-color:transparent;
-} */
-
-/* .pagination{
-  width: 100%;
-  height: 200px
-}
-.pagination section {
-  width:800px;
-  height: 200px;
-  display: flex;
-  flex-direction: row;
-  color: black;
-}
-
-.pagination section ul {
-  width:800px;
-  height: 100px;
-  display: flex;
-  flex-direction: row;
-  color: black;
-} */
 
 #topNav2{
   display:none;
