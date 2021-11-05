@@ -3,9 +3,10 @@
   <transition-group name="list" v-if="movies.length" tag="div" class="row movieContainer justify-content-center">
     <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID">
       <section @click="saveFavourite(movie)">
-        <img src="../assets/ade1.jpg" />
+        <img src="../assets/ade5.jpg" />
         <span>{{ movie.Year }}</span>
-        <h3>{{ movie.Title }}</h3>
+        <h3><b class="text-light">Title: </b>{{ (movie.Title).slice(0,25) }}</h3>
+        <h3><b class="text-light">imdbID:</b> {{ movie.imdbID }}</h3>
       </section>
     </div>
   </transition-group>
