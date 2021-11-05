@@ -73,6 +73,7 @@
 import { defineComponent, ref } from 'vue';
 import MovieList from './components/MovieList.vue'
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+  import '@ocrv/vue-tailwind-pagination/dist/style.css'
 import Movie from './types/Movie'
 import OrderTerm from './types/OrderTerm'
 import MovieService from './services/MovieService.js'

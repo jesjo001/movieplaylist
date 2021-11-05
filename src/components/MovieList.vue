@@ -13,14 +13,11 @@
   <transition-group name="list" v-else tag="div" class="row movieContainer justify-content-center">
     <p>Loading movies...</p>
   </transition-group>
-
 </template>
 
 <script lang="ts">
 
   import {  defineComponent, computed, PropType, ref } from 'vue'
-  import '@ocrv/vue-tailwind-pagination/dist/style.css'
-  import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
   import Movie from '@/types/Movie'
   import OrderTerm from '@/types/OrderTerm'
 
