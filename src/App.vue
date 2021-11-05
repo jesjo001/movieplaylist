@@ -138,6 +138,7 @@ export default defineComponent({
     }
 
     const getpaginated = (event) => {
+      movies.value = []
       MovieService.getPaginated(event)
       .then(res => {
         movies.value = [...res.data.data];
