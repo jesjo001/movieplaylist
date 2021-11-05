@@ -1,7 +1,7 @@
 <template>
 
   <transition-group name="list" v-if="movies.length" tag="div" class="row movieContainer justify-content-center">
-    <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID">
+    <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add to favourite list">
       <section @click="saveFavourite(movie)">
         <img src="../assets/ade5.jpg" />
         <span>{{ movie.Year }}</span>
@@ -163,6 +163,30 @@
   .list-move {
     transition: all 1s;
   }
+
+  .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 
   @media (max-width: 1240px) {
     .topNav {
