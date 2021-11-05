@@ -1,27 +1,450 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="app">
+  <header>
+    <div class="userArea">
+      <h2 class="text-light">Movie List</h2>
+    </div>
+    <div class="navContainer">
+      <ul class="ulist">
+        <li><a href="#" @click="getAll">All</a></li>
+        <li><a href="#" @click="showFavourites">Favorite</a></li>
+      </ul>
+      <form class="d-flex flex-column px-4" @submit.prevent="searchApi">
+        <input class="form-control me-2 mb-4" type="search" placeholder="Search" v-model="searchTerm" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="navContainer">
+      <div class="sideTitle"> Sort By</div>
+      <ul class="ulist">
+        <li><a href="#" @click="handleClick('Title')">Title</a></li>
+        <li><a href="#" @click="handleClick('Year')">Year</a></li>
+        <li><a href="#" @click="handleClick('imdbID')">imdbID</a></li>
+        <li><a href="#">Favorite</a></li>
+
+      </ul>
+    </div>
+  </header>
+  <div class="main">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 topNav" id="topNav2">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Movie List</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarScroll">
+          <ul class="navbar-nav me-auto my-2 my-lg-0 " style="--bs-scroll-height: 100px;">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="getAll">All</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="showFavourites">Favourite</a>
+            </li>
+          </ul>
+          <form class="d-flex" @submit.prevent="searchApi">
+            <input class="form-control me-2" type="search" placeholder="Search" v-model="searchTerm" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <MovieList :movies="movies" :order="order" :page="page" :favourite="favourite" />
+    <div class="pagination" id="sectionColor">
+      <VueTailwindPagination
+
+    :current="page"
+    :total="totalPages"
+    :per-page="perPage"
+    @page-changed="getpaginated($event)"
+    />
+    </div>
+
+  </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+
+import { defineComponent, reactive, toRefs, ref, PropType } from 'vue';
+import MovieList from './components/MovieList.vue'
+// import "@ocrv/vue-tailwind-pagination/dist/style.css";
+import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
+import Movie from './types/Movie'
+import OrderTerm from './types/OrderTerm'
+import axios from 'axios'
+import MainArea from './components/MainArea.vue'
+import MovieService from './services/MovieService'
+// import HelloWorld from './components/HelloWorld.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    HelloWorld
+    MovieList,
+    VueTailwindPagination
+  },
+  props: {
+  },
+  setup(){
+    const movies = ref<Movie[]>([])
+    const favouriteMovies = ref<Movie[]>([])
+    const order = ref<OrderTerm>('Title')
+    const searchTerm = ref<string>('')
+    const favourite = ref<boolean>(false)
+    const page = ref<number>(1)
+    const totalPages = ref<number>(10)
+    const perPage = ref<number>(10)
+
+    const handleClick = (term: OrderTerm) => {
+      order.value = term
+    }
+
+    const showFavourites = ()=>{
+      favourite.value = !favourite.value;
+    }
+
+    const searchApi = (e) => {
+      handleSearch(searchTerm.value, page.value)
+    }
+
+    const handleSearch = ( name: string , page: number) => {
+      favourite.value = false
+      movies.value = [];
+      MovieService.searchTitle(name, page)
+      .then(res => {
+        console.log("search data ",res.data);
+        movies.value = [...res.data.data];
+        page = res.data.page
+        totalPages.value = res.data.total_pages
+        searchTerm.value = ''
+      })
+      .catch(error => {
+        console.log("There was an error", error.response)
+      })
+    }
+
+    const getAll = () => {
+      //initialize the values
+      favourite.value = false
+      movies.value = []
+
+      MovieService.getPaginated(page)
+      .then(res => {
+        console.log("search data ",res.data);
+        movies.value = [...res.data.data];
+        searchTerm.value = ''
+        page.value = res.data.page
+      })
+      .catch(error => {
+        console.log("There was an error", error.response)
+      })
+    }
+
+    const getpaginated = (event) => {
+      console.log("event is ", event)
+      MovieService.getPaginated(event)
+      .then(res => {
+        console.log("search data ",res.data);
+        movies.value = [...res.data.data];
+        searchTerm.value = ''
+        page.value = res.data.page
+      })
+      .catch(error => {
+        console.log("There was an error", error.response)
+      })
+    }
+
+    return {
+      movies,
+      handleClick,
+      favourite,
+      searchApi,
+      order,
+      searchTerm,
+      page,
+      totalPages,
+      getAll,
+      getpaginated,
+      showFavourites
+    }
+  },
+  mounted(){
+    MovieService.getMovies()
+    .then(res => {
+      console.log(res.data);
+      this.movies = [...res.data.data];
+      this.page = res.data.page
+      this.totalPages = res.data.total_pages
+      console.log("movei ", this.movies)
+      console.log("page ", this.page)
+      console.log("total page ", this.totalPages)
+    })
+    .catch(error => {
+      console.log("There was an error", error.response)
+    })
   }
 });
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style >
+.app {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+.topNav{
+  display: none;
+}
+
+header{
+  margin-top: 20px;
+  flex:0.13;
+  /* border-right:2px solid #718496; */
+  display: flex;
+  flex-direction: column;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5em;
+}
+
+
+.userArea{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+
+}
+
+.navContainer{
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  margin-top:20px;
+  margin-bottom:20px;
+  padding: 0px;
+  width: 100%;
+  justify-content: center;
+}
+
+.sideTitle{
+  color: white;
+  padding: 10px;
+  padding-left:50px;
+  border-top:1px solid #718496;
+  /* border-bottom:1px solid #718496; */
+  margin-bottom:10px;
+}
+
+.ulist {
+  list-style:none;
+  text-decoration:none;
+  margin-left:20px;
+  padding-left:10px;
+}
+
+.ulist li {
+  padding-bottom:10px;
+  padding-left:0px;
+  padding-right:0px;
+  width:110%;
+}
+
+.ulist li a{
+  list-style: none;
+  padding:10px;
+  text-decoration: none;
+  max-width: 400px;
+  color: #718496;
+}
+
+.ulist li a:hover{
+  /* background-color:#718496; */
+  color: white;
+  max-width: 400px;
+}
+/*
+ul{
+  list-style:none;
+  text-decoration:none;
+  margin:0px;
+  padding:0px;
+}
+
+ul li{
+  padding-bottom:10px;
+  padding-left:0px;
+  padding-right:0px;
+  width:110%;
+}
+
+ul li a{
+  list-style: none;
+  padding:10px;
+  text-decoration: none;
+  max-width: 400px;
+  color: #718496;
+}
+
+ul li a:hover{
+  color: white;
+  max-width: 400px;
+} */
+
+.main {
+  flex:0.95;
+  margin: 10px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+    border-left:2px solid #718496;
+}
+
+
+.movieContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  /* margin-top: 50px; */
+  margin-bottom: 120px;
+}
+
+#sectionColor {
+  background-color: white;
+  width: 700px;
+}
+
+#sectionColor section ul {
+  background-color: white;
+  width: 700px;
+}
+
+#sectionColor section ul li,
+section ul li a,
+section ul li a div,
+section ul li a div span, svg{
+  background-color: white;
+}
+
+.pagination div,
+.pagination div span,
+.pagination div input{
+  background-color: white;
+}
+/*
+section{
+  width: 200px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color:none;
+
+}
+
+section img {
+  margin-bottom: 15px;
+  background-color:none;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+
+  box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
+-webkit-box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
+-moz-box-shadow: 5px 3px 19px 3px rgba(0,0,0,0.75);
+}
+
+section img:hover {
+  transform: scale(1.1, 1.1);
+  margin-bottom: 40px;
+  box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
+-webkit-box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 4px 19px 9px rgba(0,0,0,0.75);
+}
+
+section span {
+  background-color: rgb(233, 122, 18);
+  width: 50px;
+  padding:5px;
+  color:white;
+  border-radius: 25px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: -15px;
+  left: 70px;
+}
+
+section h3,p, img{
+  background-color:transparent;
+} */
+
+/* .pagination{
+  width: 100%;
+  height: 200px
+}
+.pagination section {
+  width:800px;
+  height: 200px;
+  display: flex;
+  flex-direction: row;
+  color: black;
+}
+
+.pagination section ul {
+  width:800px;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  color: black;
+} */
+
+#topNav2{
+  display:none;
+}
+
+@media (max-width: 1240px){
+  .topNav{
+    display: flex;
+  }
+
+
+}
+
+
+@media (max-width: 1420px){
+  header{
+    display: none;
+    margin-top: 20px;
+    margin-left:0px;
+    padding-left:0px;
+  }
+
+  .navContainer{
+    display:flex;
+    justify-content: flex-start;
+  }
+
+.ulist {
+    margine: none;
+    padding-left: none;
+  }
+
+.ulist li{
+    margin:0px;
+    padding:0px;
+    padding-left:0px;
+    width:100%;
+  }
+
+
+
+  #topNav2{
+    display:flex;
+  }
 }
 </style>
