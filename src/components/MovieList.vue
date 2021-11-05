@@ -3,7 +3,7 @@
   <transition-group name="list" v-if="movies.length" tag="div" class="container d-flex flex-wrap align-content-between movieContainer justify-content-evenly align-items-center">
     <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 my-5" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add/remove from favourite list">
       <section @click="saveFavourite(movie)">
-        <img src="../assets/ade5.jpg" />
+        <img src="../assets/temp1.jpg" />
         <span>{{ movie.Year }}</span>
         <h3><b class="text-light">Title: </b>{{ (movie.Title).slice(0,25) }}</h3>
         <h3><b class="text-light">imdbID:</b> {{ movie.imdbID }}</h3>
