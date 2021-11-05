@@ -38,87 +38,13 @@
     </nav>
 
     <MovieList :movies="movies" :order="order" />
-    <!-- <div class="row movieContainer  justify-content-center">
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-
-      <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto">
-        <section >
-          <img src="../assets/ade1.jpg" />
-          <span>3.0</span>
-          <h3>Movie Title</h3>
-          <p>HTML5 boilerplate structured page.</p>
-        </section>
-      </div>
-    </div> -->
-
 
   </div>
 </template>
 
 <script lang="ts">
 
-import { defineComponent, reactive, toRefs, ref, PropType } from 'vue';
+import { defineComponent, ref } from 'vue';
 import MovieList from './MovieList.vue'
 import Movie from '../types/Movie'
 import OrderTerm from '../types/OrderTerm'

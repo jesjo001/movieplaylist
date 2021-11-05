@@ -70,16 +70,12 @@
 
 <script lang="ts">
 
-import { defineComponent, reactive, toRefs, ref, PropType } from 'vue';
+import { defineComponent, ref } from 'vue';
 import MovieList from './components/MovieList.vue'
-// import "@ocrv/vue-tailwind-pagination/dist/style.css";
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
 import Movie from './types/Movie'
 import OrderTerm from './types/OrderTerm'
-import axios from 'axios'
-import MainArea from './components/MainArea.vue'
-import MovieService from './services/MovieService'
-// import HelloWorld from './components/HelloWorld.vue';
+import MovieService from './services/MovieService.js'
 
 export default defineComponent({
   name: 'App',
@@ -91,7 +87,6 @@ export default defineComponent({
   },
   setup(){
     const movies = ref<Movie[]>([])
-    const favouriteMovies = ref<Movie[]>([])
     const order = ref<OrderTerm>('Title')
     const searchTerm = ref<string>('')
     const favourite = ref<boolean>(false)
@@ -116,7 +111,6 @@ export default defineComponent({
       movies.value = [];
       MovieService.searchTitle(name, page)
       .then(res => {
-        console.log("search data ",res.data);
         movies.value = [...res.data.data];
         page = res.data.page
         totalPages.value = res.data.total_pages
@@ -134,7 +128,6 @@ export default defineComponent({
 
       MovieService.getPaginated(page)
       .then(res => {
-        console.log("search data ",res.data);
         movies.value = [...res.data.data];
         searchTerm.value = ''
         page.value = res.data.page
@@ -145,10 +138,8 @@ export default defineComponent({
     }
 
     const getpaginated = (event) => {
-      console.log("event is ", event)
       MovieService.getPaginated(event)
       .then(res => {
-        console.log("search data ",res.data);
         movies.value = [...res.data.data];
         searchTerm.value = ''
         page.value = res.data.page

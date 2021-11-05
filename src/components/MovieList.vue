@@ -21,7 +21,7 @@
   import { computed, defineComponent, PropType, ref } from 'vue'
   import '@ocrv/vue-tailwind-pagination/dist/style.css'
   import VueTailwindPagination from '@ocrv/vue-tailwind-pagination'
-  import Movie from '@/types/Movie.ts'
+  import Movie from '@/types/Movie'
   import OrderTerm from '@/types/OrderTerm'
   // import MovieService from '../services/MovieService'
   export default defineComponent({
@@ -48,6 +48,7 @@
     setup(props) {
       const favouriteMovies = ref<Movie[]>([])
 
+      //order movie list
       let orderedMovies = computed(() => {
         if (props.favourite == true) {
           const favMovie = [...favouriteMovies.value]

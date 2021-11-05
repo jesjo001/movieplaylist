@@ -13,7 +13,7 @@ export default {
   getMovies(){
     return apiClient.get('/')
   },
-  searchTitle(name, page){
+  searchTitle(name , page){
     return apiClient.get(`/search/?Title=${name}&page=${page}`)
   },
   getPaginated(page){
