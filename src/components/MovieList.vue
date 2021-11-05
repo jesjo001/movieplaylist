@@ -1,7 +1,7 @@
 <template>
 
   <transition-group name="list" v-if="movies.length" tag="div" class="row movieContainer justify-content-center">
-    <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add to favourite list">
+    <div class="col-sm-6 col-md-4 col-lg-3 my-5 mx-auto" v-for="movie in orderedMovies" :key="movie.imdbID" data-bs-toggle="tooltip" data-bs-placement="top" title="Click to add/remove from favourite list">
       <section @click="saveFavourite(movie)">
         <img src="../assets/ade5.jpg" />
         <span>{{ movie.Year }}</span>
