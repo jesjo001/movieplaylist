@@ -28,7 +28,7 @@
   </header>
   <div class="main">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4 topNav" id="topNav2">
-      <div class="container-fluid">
+      <div class="container">
         <a class="navbar-brand" href="#">Movie List</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
     </nav>
 
     <MovieList :movies="movies" :order="order" :page="page" :favourite="favourite" />
-    <div class="pagination" id="sectionColor">
+    <div class="pagination container d-flex flex-wrap align-content-between movieContainer justify-content-evenly align-items-center" id="sectionColor">
       <VueTailwindPagination
 
     :current="page"
@@ -183,10 +183,11 @@ export default defineComponent({
 </script>
 
 <style >
+
 .app {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+    min-width: 500px;
 }
 
 .topNav{
@@ -398,13 +399,22 @@ section h3,p, img{
 #topNav2{
   display:none;
 }
+@media (max-width: 966px){
+  #sectionColor {
+  min-width: 300px;
+  padding:0px;
+  margin: 0px;
+}
+
+#sectionColor section ul {
+  width: 300px;
+}
+}
 
 @media (max-width: 1240px){
   .topNav{
     display: flex;
   }
-
-
 }
 
 
@@ -422,7 +432,7 @@ section h3,p, img{
   }
 
 .ulist {
-    margine: none;
+    margin: none;
     padding-left: none;
   }
 
@@ -432,9 +442,6 @@ section h3,p, img{
     padding-left:0px;
     width:100%;
   }
-
-
-
   #topNav2{
     display:flex;
   }
