@@ -3,6 +3,7 @@ import App from './App.vue'
 import './assets/globals.css'
 import { BootstrapVue, IconsPlugin, BootstrapVuePlugin } from 'bootstrap-vue'
 
+import "@ocrv/vue-tailwind-pagination/dist/style.css";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 

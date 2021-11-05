@@ -5,7 +5,7 @@
       <section @click="saveFavourite(movie)">
         <img src="../assets/temp1.jpg" />
         <span>{{ movie.Year }}</span>
-        <h3><b class="text-light">Title: </b>{{ (movie.Title).slice(0,25) }}</h3>
+        <h3><b class="text-light">Title: </b>{{ movie.Title }}</h3>
         <h3><b class="text-light">imdbID:</b> {{ movie.imdbID }}</h3>
       </section>
     </div>
@@ -39,7 +39,11 @@
       favourite: {
         required: true,
         type: Boolean
-      }
+      },
+      loading: {
+        required: true,
+        type: Boolean
+      },
     },
     setup(props) {
       const favouriteMovies = ref<Movie[]>([])
